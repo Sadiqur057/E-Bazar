@@ -16,4 +16,17 @@ const fetchProducts = async () => {
   }
 };
 
-module.exports = { saveProduct, fetchProducts };
+const deleteProduct = async (productId) => {
+  try {
+    if (!productId) throw new Error("Product ID is required");
+
+    const product = await Product.findByIdAndDelete(productId);
+    if (!product) throw new Error("Product not found");
+    const updatedProducts = await Product.find();
+    return updatedProducts;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+module.exports = { saveProduct, fetchProducts, deleteProduct };
