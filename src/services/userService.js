@@ -3,7 +3,6 @@ const User = require("../models/User");
 const fetchUsers = async () => {
   try {
     const users = await User.find();
-    // console.log(users)
     const usersData = users.map((user) => {
       return {
         name: user.name,
