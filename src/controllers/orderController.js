@@ -41,8 +41,8 @@ const getAllOrders = async (req, res) => {
 
 const updateOrderStatus = async (req, res) => {
   try {
-    await orderService.updateOrderStatus(req.params.id, req.body.status);
-    res.send({ message: "Order status updated", success: true });
+    const order= await orderService.updateOrderStatus(req.params.id, req.body.status);
+    res.send({ message: "Order status updated", success: true, data: order });
   } catch (error) {
     return res.status(409).send({ message: error.message, success: false });
   }

@@ -33,7 +33,7 @@ const saveOrder = async (user, order) => {
       totalAmount,
       shippingAddress: order.shippingAddress,
       paymentMethod: order.paymentMethod,
-      paymentStatus: order.paymentStatus
+      paymentStatus: order.paymentStatus,
     });
 
     await Promise.all(
@@ -44,7 +44,7 @@ const saveOrder = async (user, order) => {
     );
 
     await newOrder.save();
-    await Cart.findOneAndDelete({user: user?.id})
+    await Cart.findOneAndDelete({ user: user?.id });
     return newOrder;
   } catch (error) {
     throw new Error(error.message);
@@ -53,7 +53,7 @@ const saveOrder = async (user, order) => {
 
 const getOrders = async (user) => {
   try {
-    const orders = await Order.find({ user: user.id })
+    const orders = await Order.find({ user: user.id });
     return orders;
   } catch (error) {
     throw new Error(error.message);
@@ -64,20 +64,20 @@ const getAllOrders = async (user) => {
     const orders = await Order.find().populate({
       path: "user",
       select: "name email",
-    });;
+    });
     return orders;
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-const updateOrderStatus = async (orderId, status) => {
+const updateOrderStatus = async (orderId, status, user) => {
   try {
-    const order = await Order.findById(orderId);
+    const order = await Order.findById(orderId).populate("user");
     if (!order) throw new Error("Order not found");
-
     order.status = status;
     await order.save();
+    return order;
   } catch (error) {
     throw new Error(error.message);
   }
