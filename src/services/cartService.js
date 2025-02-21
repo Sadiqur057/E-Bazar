@@ -84,9 +84,12 @@ const updateQuantity = async (userId, productId, quantity) => {
 
 const getCartItems = async (user) => {
   try {
-    const cart = await Cart.findOne({ user: user.id }).populate(
-      "products.product"
-    );
+    const cart = await Cart.findOne({ user: user.id })
+      .populate("products.product")
+      .populate({
+        path: "user",
+        select: "name email",
+      });
 
     if (!cart) return null;
     cart.products = cart.products.filter((item) => item.product.stock > 0);
