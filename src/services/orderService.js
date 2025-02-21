@@ -33,6 +33,7 @@ const saveOrder = async (user, order) => {
       totalAmount,
       shippingAddress: order.shippingAddress,
       paymentMethod: order.paymentMethod,
+      paymentStatus: order.paymentStatus
     });
 
     await Promise.all(

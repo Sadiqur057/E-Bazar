@@ -21,6 +21,11 @@ const orderSchema = new mongoose.Schema(
       enum: ["Confirmed", "Processing", "Shipped", "Delivered"],
       default: "Confirmed",
     },
+    paymentStatus: {
+      type: String,
+      enum: ["unpaid", "paid"],
+      default: "unpaid",
+    },
     paymentMethod: {
       type: String,
       enum: ["Online Payment", "Cash on Delivery"],
