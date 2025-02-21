@@ -87,6 +87,10 @@ const getCartItems = async (user) => {
     const cart = await Cart.findOne({ user: user.id }).populate(
       "products.product"
     );
+
+    if (!cart) return null;
+    cart.products = cart.products.filter((item) => item.product.stock > 0);
+
     return cart;
   } catch (error) {
     throw new Error(error.message);
