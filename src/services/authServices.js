@@ -11,7 +11,8 @@ const register = async (userData) => {
 
 const login = async ({ email, password }) => {
   const user = await User.findOne({ email });
-  if (!user || !comparePassword(password, user.password)) {
+  const isMatch = await comparePassword(password, user?.password);
+  if (!user || !isMatch) {
     throw new Error("Invalid credentials");
   }
   const token = jwtUtils.generateToken(user);
